@@ -1,42 +1,36 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Invoice } from 'src/app/modal/invoice';
-import { DataService } from 'src/app/services/data.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-show-invoices',
   templateUrl: './show-invoices.component.html',
   styleUrls: ['./show-invoices.component.css']
 })
-export class ShowInvoicesComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ShowInvoicesComponent implements OnInit, AfterViewInit {
   displayedColumns = ['name', 'count', 'price', 'service', 'availability'];
   dataSource = new MatTableDataSource<Invoice>();
-  invoiceSubscription!: Subscription;
 
   rows: Invoice[] = [];
-  pageSizeOptions = [3, 5, 10, 25, 50];
-  pageSize = 5;
+  pageSizeOptions = [1, 2, 3, 5, 10, 15];
+  pageSize = 2;
   totalRows = 0;
   enablePagination = true;
-  isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private dataService: DataService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.invoiceSubscription =
-    this.dataService.invoiceSubject.subscribe(
-      (invoices: Invoice[]) => {
-        this.dataSource.data = invoices;
-        this.isLoading = false;
-      }
-    );
-    setTimeout(() => {
-      this.dataService.getAllInvoices();
-    }, 2000);
+    if (history.state.items) {
+      this.rows = history.state.items;
+    }
+  }
+
+  //Function that calculates a value for each pair of elements
+  getAmount(invoice: Invoice[]) {
+    return invoice?.reduce((prev, curr) => prev + curr.count * curr.price, 0)
   }
 
   //Function that shows all data (only if pagination is not enabled)
@@ -55,12 +49,6 @@ export class ShowInvoicesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.totalRows = this.rows.length;
     if (this.enablePagination) {
       this.dataSource.paginator = this.paginator;
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.invoiceSubscription) {
-      this.invoiceSubscription.unsubscribe();
     }
   }
 }

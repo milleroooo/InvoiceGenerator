@@ -1,58 +1,66 @@
-   <!--Filter input-->
-   <div class="filter-table" fxLayoutAlign="center center">
-    <mat-form-field fxFlex="60%">
-      <input matInput type="text" class="filter-input" placeholder="Filter.." (keyup)="applyFilter($event)">
-    </mat-form-field>
-  </div>
+<!--Filter input-->
+<div class="filter-table" fxLayoutAlign="center center">
+  <mat-form-field fxFlex="60%">
+    <input
+      matInput
+      type="text"
+      class="filter-input"
+      placeholder="Filter.."
+      (keyup)="applyFilter($event)"
+    />
+  </mat-form-field>
+</div>
 
-     <!--Pagination checkbox-->
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <mat-checkbox [(ngModel)]="enablePagination" (click)="togglePagination()">Use pagination</mat-checkbox>
-  </div>
-    <!--Pagination-->
-  <mat-paginator #paginator *ngIf="enablePagination" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [length]="totalRows">
-  </mat-paginator>
+<!--Pagination checkbox-->
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-checkbox [(ngModel)]="enablePagination" (click)="togglePagination()">Use pagination</mat-checkbox>
+</div>
+<!--Pagination-->
+<mat-paginator
+  #paginator
+  *ngIf="enablePagination"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  [length]="totalRows"
+>
+</mat-paginator>
 
-    <!--Data table-->
-<mat-table [dataSource]="dataSource" *ngIf="!isLoading">
+<!--Data table-->
+<mat-table [dataSource]="dataSource">
+  <!--Name column-->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+  </ng-container>
 
-    <!--Name column-->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
-    </ng-container>
+  <!--Count column-->
+  <ng-container matColumnDef="count">
+    <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.count }}</mat-cell>
+  </ng-container>
 
-    <!--Count column-->
-    <ng-container matColumnDef="count">
-      <mat-header-cell *matHeaderCellDef>Count</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.count }}</mat-cell>
-    </ng-container>
+  <!--Price column-->
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
+  </ng-container>
 
-    <!--Price column-->
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
-    </ng-container>
+  <!--Service column-->
+  <ng-container matColumnDef="service">
+    <mat-header-cell *matHeaderCellDef fxHide.xs>Service</mat-header-cell>
+    <mat-cell *matCellDef="let element" fxHide.xs>{{element.service}}</mat-cell>
+  </ng-container>
 
-    <!--Service column-->
-    <ng-container matColumnDef="service">
-      <mat-header-cell *matHeaderCellDef fxHide.xs>Service</mat-header-cell>
-      <mat-cell *matCellDef="let element" fxHide.xs>{{ element.service }}</mat-cell>
-    </ng-container>
-    <!--Availability column-->
-    <ng-container matColumnDef="availability">
-      <mat-header-cell *matHeaderCellDef>Availability</mat-header-cell>
-      <mat-cell *matCellDef="let element"><span [ngClass]="{'available': element.availability== 'available', 'inaccessible': element.availability ==  'inaccessible'}">{{element.availability}}</span></mat-cell>
-    </ng-container>
+  <!--Availability column-->
+  <ng-container matColumnDef="availability">
+    <mat-header-cell *matHeaderCellDef>Availability</mat-header-cell>
+    <mat-cell *matCellDef="let element"> <span [ngClass]="{ available: element.availability == 'available', inaccessible: element.availability == 'inaccessible'}">
+      {{ element.availability }}</span></mat-cell>
+  </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-  </mat-table>
-
-  <app-show-company></app-show-company>
-
-    <!--Loading spinner-->
-  <div class="loading-spinner">
-    <mat-spinner diameter="120" fxLayoutAlign="center center" *ngIf="isLoading"></mat-spinner>
-  </div>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+<p *ngIf="dataSource.data.length > 0">All invoices: {{ getAmount(rows) }}</p>
+<p *ngIf="dataSource.data.length === 0">No items</p>
+<app-show-company></app-show-company>

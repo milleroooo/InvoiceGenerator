@@ -36,3 +36,10 @@
 .btn{
   width: 220px;
 }
+.addAnotherInvoice{
+  width: 45px;
+  height: 45px;
+}
+.deleteIvoice{
+  padding-left: 340px;
+}
