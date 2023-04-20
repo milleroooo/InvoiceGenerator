@@ -1,0 +1,92 @@
+<form [formGroup]="invoiceForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSubmit()">
+  <mat-card class="new-invoice">
+    <mat-card-header class="header">
+      <mat-card-title>Invoice Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row" fxLayout.xs="column">
+        <div class="col">
+
+              <!--Name form-->
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Company Name" formControlName="name">
+
+            <mat-error *ngIf="invoiceForm.controls['name'].hasError('required')">
+              Name is <strong>required</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['name'].hasError('minlength')">
+              Name must be at least <strong>3 characters</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['name'].hasError('maxlength')">
+              Name cannot be more than <strong>30 characters</strong>
+            </mat-error>
+          </mat-form-field>
+
+               <!--Price form-->
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Price" formControlName="price">
+            <mat-error *ngIf="invoiceForm.controls['price'].hasError('required')">
+              Price is <strong>required</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['price'].hasError('min')">
+              Price must be at least <strong>1</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['price'].hasError('max')">
+              Price is maximum <strong>10 000</strong>
+            </mat-error>
+          </mat-form-field>
+
+              <!--Count form-->
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Count" formControlName="count">
+            <mat-error *ngIf="invoiceForm.controls['count'].hasError('required')">
+              Count is <strong>required</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['count'].hasError('min')">
+              Count must be at least <strong>1</strong>
+            </mat-error>
+
+            <mat-error *ngIf="invoiceForm.controls['count'].hasError('max')">
+              Count is maximum <strong>100</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--Service form-->
+      <div fxLayout="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Service" formControlName="service">
+              <mat-option *ngFor="let service of services" [value]="service.type">
+                {{ service.type }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="invoiceForm.controls['service'].hasError('required')">
+              Service is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!--Availability form-->
+      <div class="row">
+        <div class="col">
+          <mat-radio-group formControlName="availability">
+            <mat-radio-button value="available">available</mat-radio-button>
+            <mat-radio-button value="inaccessible">inaccessible</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center center">
+      <button mat-raised-button color="accent" type="submit" class="btn">Submit</button>
+    </mat-card-actions>
+    <img src="../../assets/images/dashboardImg.png" fxFlexAlign="center" fxHide.xs class="dashboard-image">
+  </mat-card>
+</form>

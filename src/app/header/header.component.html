@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+  <!--logo-->
+<img src="../../assets/images/logo.png" class="logo" alt=""/>
+  <!--title-->
+<span>Invoice Generator</span>
+<span class="spacer"></span>
+<mat-icon *ngIf="isAuth" (click)="onLogout()">logout</mat-icon>
+</mat-toolbar>

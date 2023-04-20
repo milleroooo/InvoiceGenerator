@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "invoice-generator-8582f": {
+      "hosting": {
+        "InvoiceGenerator": [
+          "invoice-generator-8582f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "invoice-generator-8582f"
+  }
+}

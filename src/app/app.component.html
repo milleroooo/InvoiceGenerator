@@ -1,0 +1,13 @@
+<app-header></app-header>
+<nav mat-tab-nav-bar *ngIf="isAuth" [tabPanel]="tabPanel">
+  <a mat-tab-link
+    *ngFor="let link of navLinks"
+    [routerLink]="link.link"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    {{link.label}}
+  </a>
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <router-outlet></router-outlet>
+

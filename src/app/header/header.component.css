@@ -1,0 +1,8 @@
+.logo{
+  padding-right: 10px;
+  width: 40px;
+  height: 40px;
+}
+.spacer {
+  flex: 1 1 auto;
+}

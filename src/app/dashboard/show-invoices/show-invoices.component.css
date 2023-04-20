@@ -1,0 +1,14 @@
+.filter-table{
+  padding-top: 20px;
+}
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.available{
+  color:#2fa363 ;
+}
+.inaccessible{
+  color:#df2727 ;
+}
